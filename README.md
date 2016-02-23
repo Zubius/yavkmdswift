@@ -10,5 +10,7 @@ Can't download more than 6000 first audio, can't redownload file in case of bad 
 and not to redownload again.
 
 Usage:
+
 chmod +x YAVKMDSwift.swift
+
 swift YAVKMDSwift.swift login password
