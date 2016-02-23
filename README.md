@@ -1,8 +1,6 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
+### Summary ###
 
 * Yet Another VK Music Downloader with Swift
 * Trying Swift with simple downloading music from Your VK account. Not stable version!
