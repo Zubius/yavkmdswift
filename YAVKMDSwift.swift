@@ -2,6 +2,7 @@
 
 import Foundation
 
+//structs for json
 struct VKUser {
     var Token : String = ""
     var UserId = 0
@@ -14,6 +15,7 @@ struct VKMusicResponse {
 struct VKMusic {
     var Count = 0
     var Items = [VKMusicItem]()
+    //set of all track ids, to keep not downloaded yet
     var TrackSet = Set<Int>()
 }
 
@@ -43,7 +45,6 @@ func ParseJsonMusic(json : String) -> VKMusic {
                     music.Items[i].Id = ((jsonObj["response"]!["items"]!![i]["id"] as? Int)!)
                     music.TrackSet.insert((jsonObj["response"]!["items"]!![i]["id"] as? Int)!)
                 }
-                return music
             }
         } catch {
             return music
@@ -82,15 +83,14 @@ func HTTPGetRequest(url : String, callback: (String) -> Void) {
         callback(dataString as! String)
     }
     
-    
     task.resume()
 }
 
 func HTTPDownload(item : VKMusicItem, callback: (VKMusicItem) -> Void) {
     let url = NSURL(string: item.Url)
-//    print("Start Download: \(item.Artist) - \(item.Title).mp3")
     let task = NSURLSession.sharedSession().dataTaskWithURL(url!) {(data, response, error) in
     	if error == nil {
+            //set path and filename to save
         	if let dir = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.MusicDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first {
         		let docDir : AnyObject = dir
             	let folder = docDir.stringByAppendingPathComponent("VKMusic")
@@ -99,7 +99,7 @@ func HTTPDownload(item : VKMusicItem, callback: (VKMusicItem) -> Void) {
             	callback(item)
         	}
         } else {
-        	print("\(item.Artist) - \(item.Title).mp3 Didn't downloaded: \(error!.localizedDescription as String)")
+        	print("---   \(item.Artist) - \(item.Title).mp3 Didn't downloaded: \(error!.localizedDescription as String)")
         }
     }
     
@@ -119,6 +119,7 @@ GetVKToken() {
     (user : VKUser) -> Void in
     HTTPGetRequest("https://api.vk.com/method/audio.get?owner_id=\(user.UserId)&v=5.45&count=6000&access_token=\(user.Token)") {(data : String) -> Void in
         var music = ParseJsonMusic(data)
+        //Create Directory for downloaded tracks
         if let dir = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.MusicDirectory, NSSearchPathDomainMask.AllDomainsMask, true).first {
             let docDir : AnyObject = dir
             let folder = docDir.stringByAppendingPathComponent("VKMusic")
