@@ -9,4 +9,4 @@
 ### Usage ###
 
 * chmod +x YAVKMDSwift.swift
-* swift YAVKMDSwift.swift login password
+* swift YAVKMDSwift.swift login password [userid]
