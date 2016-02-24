@@ -29,7 +29,7 @@ let password = Process.arguments[2]
 var UserId = 0
 var specificId = Process.arguments.count == 4
 if (specificId) {
-    UserId = Process.arguments[3]
+    UserId = Int(Process.arguments[3])!
 }
 
 func ParseJsonMusic(json : String) -> VKMusic {
