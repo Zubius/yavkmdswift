@@ -101,11 +101,11 @@ func HTTPDownload(item : VKMusicItem, callback: (VKMusicItem) -> Void) {
             	let folder = docDir.stringByAppendingPathComponent("VKMusic")
             	let path = (folder as NSString).stringByAppendingPathComponent("\(item.Artist) - \(item.Title).mp3");
             	data!.writeToFile(path, atomically: true)
-            	callback(item)
         	}
         } else {
         	print("---   \(item.Artist) - \(item.Title).mp3 Didn't downloaded: \(error!.localizedDescription as String)")
         }
+        callback(item)
     }
     
     
