@@ -101,6 +101,7 @@ func HTTPDownload(item : VKMusicItem, callback: (VKMusicItem) -> Void) {
             	let folder = docDir.stringByAppendingPathComponent("VKMusic")
             	let path = (folder as NSString).stringByAppendingPathComponent("\(item.Artist) - \(item.Title).mp3");
             	data!.writeToFile(path, atomically: true)
+                print("Downloaded: \(item.Artist) - \(item.Title).mp3")
         	}
         } else {
         	print("---   \(item.Artist) - \(item.Title).mp3 Didn't downloaded: \(error!.localizedDescription as String)")
@@ -136,7 +137,6 @@ GetVKToken() {
         }
         for i in 0..<music.Items.count {
         	HTTPDownload(music.Items[i]) {(item : VKMusicItem) -> Void in
-        		print("Downloaded: \(item.Artist) - \(item.Title).mp3")
                 music.TrackSet.remove(item.Id)
                 if music.TrackSet.count == 0 {
                     exit(0)
